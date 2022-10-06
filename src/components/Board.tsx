@@ -10,18 +10,36 @@ type Props = {
 
 const Board = ({ board, updateBoard }: Props) => {
 	const [pickedPiece, setPickedPiece] = useState<{ piece: PieceI; row: number; column: number } | null>(null);
-	const [pieceFinalSpot, setPieceFinalSpot] = useState<{ piece: PieceI; row: number; column: number } | null>(null);
 	const [currentPlayer, setCurrentPlayer] = useState<"WHITE" | "BLACK">("WHITE");
+	/* 
+	TODO:
+		- Check Legal moves:
+		  // prob just pass the board to the checking function
+		 - Check for checks
+		 - Piece by piece legal moves
+		 - Cant move behind for pawns
+		 - Checkmate
+		 - En passant
+
+		- Make pointer icon not change on piece hold
+		
+		- Castle
+		
+		- Promotion
+
+		- Write notation
+	*/
 	const handlePickUpPiece = (piece: PieceI | null, row: number, column: number) => {
 		if (piece === null) {
+			return;
+		}
+		if (piece.color !== currentPlayer) {
 			return;
 		}
 		console.log(piece);
 		setPickedPiece({ piece, row, column });
 	};
 	const handleDropPiece = (piece: PieceI | null, row: number, column: number) => {
-		console.log(piece);
-		console.log("drop");
 		if (pickedPiece === null) {
 			return;
 		}
@@ -30,9 +48,9 @@ const Board = ({ board, updateBoard }: Props) => {
 		}
 		board.pieces[row][column] = pickedPiece.piece;
 		board.pieces[pickedPiece.row][pickedPiece.column] = null;
-
 		updateBoard(board);
 		setPickedPiece(null);
+		setCurrentPlayer((prev) => (prev === "BLACK" ? "WHITE" : "BLACK"));
 	};
 	return (
 		<div className="grid grid-rows-8 gap-0 w-[480px] border-2 border-black">

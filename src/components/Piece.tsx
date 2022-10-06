@@ -18,7 +18,7 @@ const Piece = ({ piece, row, column, handlePickUpPiece, handleDropPiece, current
 		handleDropPiece(piece, row, column);
 	};
 	return (
-		<div onMouseOverCapture={() => handleDrop()} onMouseDown={() => handlePickUpPiece(piece, row, column)} className="w-[60px] h-[60px] group-odd:odd:bg-[#779556] group-even:even:bg-[#779556] bg-[#EBECD0] flex">
+		<div onMouseOverCapture={() => handleDrop()} onMouseDown={() => handlePickUpPiece(piece, row, column)} className="w-[60px] h-[60px] group-odd:odd:bg-[#779556] group-even:even:bg-[#779556] bg-[#EBECD0] flex pointer-events: none; focus:cursor-pointer">
 			<img className="p-[4px]" src={piece?.svg} />
 		</div>
 	);
