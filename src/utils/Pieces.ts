@@ -1,4 +1,4 @@
-import { allowedPawn } from "./AllowedMoves";
+import { allowedPawn, allowedQueen, allowedRook } from "./AllowedMoves";
 import PieceI from "../types/PieceI";
 import BlackPawn from "../static/pieces/black_pawn.svg";
 import BlackRook from "../static/pieces/black_rook.svg";
@@ -15,15 +15,15 @@ import WhiteKing from "../static/pieces/white_king.svg";
 import WhiteQueen from "../static/pieces/white_queen.svg";
 
 export const BLACK_PAWN: PieceI = { svg: BlackPawn, color: "BLACK", findAllowedMoves: allowedPawn };
-export const BLACK_ROOK: PieceI = { svg: BlackRook, color: "BLACK" };
+export const BLACK_ROOK: PieceI = { svg: BlackRook, color: "BLACK", findAllowedMoves: allowedRook };
 export const BLACK_BISHOP: PieceI = { svg: BlackBishop, color: "BLACK" };
 export const BLACK_KNIGHT: PieceI = { svg: BlackKnight, color: "BLACK" };
 export const BLACK_KING: PieceI = { svg: BlackKing, color: "BLACK" };
-export const BLACK_QUEEN: PieceI = { svg: BlackQueen, color: "BLACK" };
+export const BLACK_QUEEN: PieceI = { svg: BlackQueen, color: "BLACK", findAllowedMoves: allowedQueen };
 
 export const WHITE_PAWN: PieceI = { svg: WhitePawn, color: "WHITE", findAllowedMoves: allowedPawn };
-export const WHITE_ROOK: PieceI = { svg: WhiteRook, color: "WHITE" };
+export const WHITE_ROOK: PieceI = { svg: WhiteRook, color: "WHITE", findAllowedMoves: allowedRook };
 export const WHITE_BISHOP: PieceI = { svg: WhiteBishop, color: "WHITE" };
 export const WHITE_KNIGHT: PieceI = { svg: WhiteKnight, color: "WHITE" };
 export const WHITE_KING: PieceI = { svg: WhiteKing, color: "WHITE" };
-export const WHITE_QUEEN: PieceI = { svg: WhiteQueen, color: "WHITE" };
+export const WHITE_QUEEN: PieceI = { svg: WhiteQueen, color: "WHITE", findAllowedMoves: allowedQueen };

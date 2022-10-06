@@ -39,6 +39,8 @@ const Board = ({ board, updateBoard }: Props) => {
 			return;
 		}
 		setPickedPiece({ piece, row, column });
+		setAllowedMoves(null);
+
 		if (piece.findAllowedMoves === undefined) {
 			return;
 		}
@@ -60,13 +62,22 @@ const Board = ({ board, updateBoard }: Props) => {
 			setCurrentPlayer((prev) => (prev === "BLACK" ? "WHITE" : "BLACK"));
 		}
 	};
+	function checkIfSelected(rowIndex: number, columnIndex: number): boolean {
+		if (pickedPiece?.row === rowIndex && pickedPiece?.column === columnIndex) {
+			return true;
+		}
+		if (allowedMoves?.some((val) => val.row === rowIndex && val.column === columnIndex)) {
+			return true;
+		}
+		return false;
+	}
 	console.log(allowedMoves);
 	return (
 		<div className="grid grid-rows-8 gap-0 w-[480px] border-2 border-black">
 			{board.pieces.map((row, rowIndex) => (
 				<div className="group flex">
 					{row.map((piece, index) => (
-						<Piece key={rowIndex.toString() + index.toString()} row={rowIndex} column={index} piece={piece} handlePickUpPiece={handlePickUpPiece} handleDropPiece={handleDropPiece} currentlyPickedUp={pickedPiece?.piece || null} />
+						<Piece key={rowIndex.toString() + index.toString()} row={rowIndex} column={index} piece={piece} handlePickUpPiece={handlePickUpPiece} handleDropPiece={handleDropPiece} currentlyPickedUp={pickedPiece?.piece || null} selected={checkIfSelected(rowIndex, index)} />
 					))}
 				</div>
 			))}
