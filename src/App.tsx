@@ -1,26 +1,16 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import Board from "./components/Board";
+import BoardI from "./types/BoardI";
+import { GenerateBoard } from "./utils/GenerateBoard";
+import { BLACK_PAWN } from "./utils/Pieces";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const board = GenerateBoard();
+	return (
+		<div className="flex justify-center items-center h-screen">
+			<Board board={board} />
+		</div>
+	);
 }
 
 export default App;
