@@ -7,18 +7,19 @@ type Props = {
 	piece: PieceI | null;
 	handlePickUpPiece: (piece: PieceI | null, row: number, column: number) => void;
 	handleDropPiece: (piece: PieceI | null, row: number, column: number) => void;
-	currentlyPickedUp: boolean;
+	currentlyPickedUp: PieceI | null;
 };
 
 const Piece = ({ piece, row, column, handlePickUpPiece, handleDropPiece, currentlyPickedUp }: Props) => {
-	const handleDrop = () => {
-		if (!currentlyPickedUp) {
+	const handleClick = () => {
+		if (currentlyPickedUp !== null && currentlyPickedUp.color !== piece?.color) {
+			handleDropPiece(piece, row, column);
 			return;
 		}
-		handleDropPiece(piece, row, column);
+		handlePickUpPiece(piece, row, column);
 	};
 	return (
-		<div onMouseOverCapture={() => handleDrop()} onMouseDown={() => handlePickUpPiece(piece, row, column)} className="w-[60px] h-[60px] group-odd:odd:bg-[#779556] group-even:even:bg-[#779556] bg-[#EBECD0] flex pointer-events: none; focus:cursor-pointer">
+		<div onMouseDown={() => handleClick()} className="w-[60px] h-[60px] group-even:odd:bg-[#779556] group-odd:even:bg-[#779556] bg-[#EBECD0] flex pointer-events: none; focus:cursor-pointer">
 			<img className="p-[4px]" src={piece?.svg} />
 		</div>
 	);

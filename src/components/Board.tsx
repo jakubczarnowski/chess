@@ -11,6 +11,7 @@ type Props = {
 const Board = ({ board, updateBoard }: Props) => {
 	const [pickedPiece, setPickedPiece] = useState<{ piece: PieceI; row: number; column: number } | null>(null);
 	const [currentPlayer, setCurrentPlayer] = useState<"WHITE" | "BLACK">("WHITE");
+	const [allowedMoves, setAllowedMoves] = useState<Array<{ row: number; column: number }> | null>();
 	/* 
 	TODO:
 		- Check Legal moves:
@@ -29,6 +30,7 @@ const Board = ({ board, updateBoard }: Props) => {
 
 		- Write notation
 	*/
+	const handlePromotion = (row: number, column: number) => {};
 	const handlePickUpPiece = (piece: PieceI | null, row: number, column: number) => {
 		if (piece === null) {
 			return;
@@ -36,8 +38,11 @@ const Board = ({ board, updateBoard }: Props) => {
 		if (piece.color !== currentPlayer) {
 			return;
 		}
-		console.log(piece);
 		setPickedPiece({ piece, row, column });
+		if (piece.findAllowedMoves === undefined) {
+			return;
+		}
+		setAllowedMoves(piece.findAllowedMoves(board, piece.color, row, column));
 	};
 	const handleDropPiece = (piece: PieceI | null, row: number, column: number) => {
 		if (pickedPiece === null) {
@@ -46,18 +51,22 @@ const Board = ({ board, updateBoard }: Props) => {
 		if (pickedPiece.column === column && pickedPiece.row === row) {
 			return;
 		}
-		board.pieces[row][column] = pickedPiece.piece;
-		board.pieces[pickedPiece.row][pickedPiece.column] = null;
-		updateBoard(board);
-		setPickedPiece(null);
-		setCurrentPlayer((prev) => (prev === "BLACK" ? "WHITE" : "BLACK"));
+		if (allowedMoves?.some((val) => val.row === row && val.column === column)) {
+			board.pieces[row][column] = pickedPiece.piece;
+			board.pieces[pickedPiece.row][pickedPiece.column] = null;
+			updateBoard(board);
+			setPickedPiece(null);
+			setAllowedMoves(null);
+			setCurrentPlayer((prev) => (prev === "BLACK" ? "WHITE" : "BLACK"));
+		}
 	};
+	console.log(allowedMoves);
 	return (
 		<div className="grid grid-rows-8 gap-0 w-[480px] border-2 border-black">
 			{board.pieces.map((row, rowIndex) => (
 				<div className="group flex">
 					{row.map((piece, index) => (
-						<Piece key={rowIndex.toString() + index.toString()} row={rowIndex} column={index} piece={piece} handlePickUpPiece={handlePickUpPiece} handleDropPiece={handleDropPiece} currentlyPickedUp={pickedPiece !== null} />
+						<Piece key={rowIndex.toString() + index.toString()} row={rowIndex} column={index} piece={piece} handlePickUpPiece={handlePickUpPiece} handleDropPiece={handleDropPiece} currentlyPickedUp={pickedPiece?.piece || null} />
 					))}
 				</div>
 			))}
